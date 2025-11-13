@@ -172,15 +172,13 @@ export default function VerseSelectionPage() {
               <Typography sx={{ fontWeight: '500' }}>{book.name}</Typography>
             </AccordionSummary>
             <AccordionDetails sx={{ backgroundColor: '#f7f7f7' }}>
-              <Grid container spacing={1}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {Array.from({ length: book.chapters }, (_, i) => i + 1).map((chapter) => (
-                  <Grid item key={chapter}>
-                    <Paper onClick={() => handleChapterClick(book, chapter)} sx={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '12px', '&:hover': { backgroundColor: 'primary.light', color: 'primary.contrastText' } }} elevation={2}>
-                      <Typography variant="body1">{chapter}</Typography>
-                    </Paper>
-                  </Grid>
+                  <Paper key={chapter} onClick={() => handleChapterClick(book, chapter)} sx={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '12px', '&:hover': { backgroundColor: 'primary.light', color: 'primary.contrastText' } }} elevation={2}>
+                    <Typography variant="body1">{chapter}</Typography>
+                  </Paper>
                 ))}
-              </Grid>
+              </Box>
             </AccordionDetails>
           </Accordion>
         ))}
@@ -239,15 +237,13 @@ export default function VerseSelectionPage() {
     <>
       <Button startIcon={<ArrowBackIcon />} onClick={() => handleBack('book')} sx={{ mb: 2 }}>책 선택으로 돌아가기</Button>
       <Typography variant="h5" gutterBottom>{selectedBook?.name} {selectedChapter}장</Typography>
-      <Grid container spacing={1}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
         {Array.from({ length: bibleData.length }, (_, i) => i + 1).map((verseNum) => (
-          <Grid item key={verseNum}>
-            <Paper onClick={() => handleVerseClick(verseNum)} sx={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '12px', '&:hover': { backgroundColor: 'primary.light', color: 'primary.contrastText' } }} elevation={2}>
-              <Typography variant="body1">{verseNum}</Typography>
-            </Paper>
-          </Grid>
+          <Paper key={verseNum} onClick={() => handleVerseClick(verseNum)} sx={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', borderRadius: '12px', '&:hover': { backgroundColor: 'primary.light', color: 'primary.contrastText' } }} elevation={2}>
+            <Typography variant="body1">{verseNum}</Typography>
+          </Paper>
         ))}
-      </Grid>
+      </Box>
     </>
   );
 
@@ -282,15 +278,16 @@ export default function VerseSelectionPage() {
       <Typography variant="body1" gutterBottom>
         선택된 말씀: {selectedBook?.name} {selectedChapter}:{selectedVerse} "{selectedVerseText?.substring(0, 20)}..."
       </Typography>
-      <Grid container spacing={2}>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
         {rapStyles.map((style) => (
-          <Grid item xs={12} sm={6} md={4} key={style.id}>
+          <Box key={style.id} sx={{ width: { xs: '100%', sm: 'calc(50% - 8px)', md: 'calc(33.333% - 11px)' }, flexGrow: 1 }}>
             <Card 
               sx={{ 
                 cursor: 'pointer', 
                 border: selectedRapStyle?.id === style.id ? '2px solid primary.main' : '1px solid #e0e0e0',
                 backgroundColor: selectedRapStyle?.id === style.id ? 'primary.light' : 'background.paper',
                 color: selectedRapStyle?.id === style.id ? 'primary.contrastText' : 'text.primary',
+                height: '100%'
               }}
               onClick={() => setSelectedRapStyle(style)}
             >
@@ -305,9 +302,9 @@ export default function VerseSelectionPage() {
                 <Typography variant="caption">미리듣기</Typography>
               </CardActions>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
       <Button 
         variant="contained" 
         fullWidth 
