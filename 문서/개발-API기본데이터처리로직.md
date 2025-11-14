@@ -190,6 +190,7 @@ export async function POST(request: Request) {
      목소리로 텍스트를 읽게 합니다.
 
   따라서 우리는 다음과 같은 전략을 사용해야 합니다.
+  
 
    1. 'AI 래퍼 페르소나' 사전 정의: 우리가 미리 ElevenLabs의 VoiceLab 기능을 사용하여 여러 가지 스타일의 'AI
       래퍼' 목소리를 만들어 둡니다.
