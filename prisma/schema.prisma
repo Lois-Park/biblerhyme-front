@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  nickname  String
+  password  String // This will store the hashed password
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  songs    Song[]
+  socials  Social[]
+  comments Comment[]
+}
+
+model Song {
+  id           String   @id @default(cuid())
+  title        String
+  lyricsPrompt String?
+  stylePrompt  String?
+  audioUrl     String
+  duration     Int?
+  status       String   @default("pending") // e.g., pending, approved, rejected
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  socials  Social[]
+  comments Comment[]
+}
+
+enum SocialType {
+  LIKE
+  DISLIKE
+  EMPATHY
+}
+
+model Social {
+  id        String     @id @default(cuid())
+  type      SocialType
+  createdAt DateTime   @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  song   Song   @relation(fields: [songId], references: [id])
+  songId String
+
+  @@unique([userId, songId, type]) // A user can only have one type of reaction per song
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  song   Song   @relation(fields: [songId], references: [id])
+  songId String
+}
